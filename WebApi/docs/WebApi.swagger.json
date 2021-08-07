@@ -1,0 +1,232 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Service Agent",
+    "description": "API to manage service agent calls",
+    "version": "1.0.0"
+  },
+  "host": "localhost",
+  "schemes": [
+    "http"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/api/v1/serviceAgent-details/{serviceAgentId}": {
+      "get": {
+        "tags": [
+          "web api"
+        ],
+        "summary": "Gets serviceAgent by serviceAgent details id. The serviceAgent gateway is to allow a merchant to retrieve details of a previously made serviceAgent using its identifier. Doing this will help the merchant with their reconciliation and reporting needs.",
+        "parameters": [
+          {
+            "$ref": "#/parameters/serviceAgentId"
+          }
+        ],
+        "operationId": "GetServiceAgentById",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/serviceAgent"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/serviceAgent/request-serviceAgent/": {
+      "post": {
+        "tags": [
+          "web api"
+        ],
+        "summary": "Request-serviceAgent. The serviceAgent will need to provide",
+        "parameters": [
+          {
+            "name": "ServiceAgentRequestDto",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ServiceAgentRequestDto"
+            }
+          }
+        ],
+        "operationId": "PostServiceAgentById",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/ServiceAgentRequestOutput"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "serviceAgentList": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/serviceAgent"
+      }
+    },
+    "serviceAgent": {
+      "type": "object",
+      "required": [
+        "serviceAgentId",
+        "CardNumber",
+        "CardExpiry",
+        "CardCvv",
+        "Amount",
+        "Currency",
+        "LastUpdatedDate"
+      ],
+      "properties": {
+        "serviceAgentId": {
+          "type": "string",
+          "example": "77d17eb6-a996-4375-bf1c-fb9808d95801"
+        },
+        "MerchantId": {
+          "type": "string",
+          "example": "21220994-fc2a-43ed-bc80-2f42990ae3ac"
+        },
+        "CardNumber": {
+          "type": "string",
+          "example": 5105105105105100
+        },
+        "CardExpiry": {
+          "type": "string",
+          "example": "8/22"
+        },
+        "CardCvv": {
+          "type": "string",
+          "example": 123
+        },
+        "Amount": {
+          "type": "number",
+          "example": 11.5,
+          "format": "decimal"
+        },
+        "Currency": {
+          "type": "string",
+          "example": "Euro"
+        },
+        "LastUpdatedDate": {
+          "description": "Represents a date, in the format of ISO 8601.",
+          "type": "string",
+          "format": "YYYY-MM-DDTHH:mm:ssZ",
+          "example": "2021-06-15T01:45:23Z"
+        }
+      }
+    },
+    "ServiceAgentRequestDto": {
+      "type": "object",
+      "required": [
+        "serviceAgentId",
+        "Card",
+        "Amount"
+      ],
+      "properties": {
+        "MerchantId": {
+          "type": "string",
+          "example": "21220994-fc2a-43ed-bc80-2f42990ae3ac"
+        },
+        "Card": {
+          "$ref": "#/definitions/Card"
+        },
+        "Amount": {
+          "$ref": "#/definitions/Amount"
+        }
+      }
+    },
+    "Card": {
+      "type": "object",
+      "required": [
+        "CardNumber",
+        "CardExpiry",
+        "CardCvv"
+      ],
+      "properties": {
+        "CardNumber": {
+          "type": "string",
+          "example": 5105105105105100
+        },
+        "CardExpiry": {
+          "type": "string",
+          "example": "8/22"
+        },
+        "CardCvv": {
+          "type": "string",
+          "example": 123
+        }
+      }
+    },
+    "Amount": {
+      "type": "object",
+      "required": [
+        "Value",
+        "Currency"
+      ],
+      "properties": {
+        "Value": {
+          "type": "number",
+          "example": 11.5,
+          "format": "decimal"
+        },
+        "Currency": {
+          "type": "string",
+          "example": "Euro"
+        }
+      }
+    },
+    "ServiceAgentRequestOutput": {
+      "type": "object",
+      "required": [
+        "serviceAgentId",
+        "CardNumber",
+        "CardExpiry",
+        "CardCvv",
+        "Amount",
+        "Currency",
+        "LastUpdatedDate"
+      ],
+      "properties": {
+        "serviceAgentId": {
+          "type": "string",
+          "example": "77d17eb6-a996-4375-bf1c-fb9808d95801"
+        },
+        "MerchantId": {
+          "type": "string",
+          "example": "21220994-fc2a-43ed-bc80-2f42990ae3ac"
+        }
+      }
+    }
+  },
+  "parameters": {
+    "serviceAgentId": {
+      "name": "serviceAgentId",
+      "type": "string",
+      "format": "uuid",
+      "in": "path",
+      "required": true,
+      "description": "77d17eb6-a996-4375-bf1c-fb9808d95801"
+    },
+    "merchantId": {
+      "name": "merchantId",
+      "type": "string",
+      "format": "uuid",
+      "in": "path",
+      "required": true,
+      "description": "21220994-FC2A-43ED-BC80-2F42990AE3AC"
+    }
+  },
+  "tags": [
+    {
+      "name": "ServiceAgent Gateway",
+      "description": "E-Commerce is experiencing exponential growth and merchants who sell their goods or services online need a way to easily collect money from their customers. We would like to build a serviceAgent gateway, an API based application that will allow a merchant to offer a way for their shoppers to pay for their product."
+    }
+  ]
+}
