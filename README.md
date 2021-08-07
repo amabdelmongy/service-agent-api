@@ -1,4 +1,4 @@
-# Service Agent by SAP
+# Service Agent
 
 ## Background
 
